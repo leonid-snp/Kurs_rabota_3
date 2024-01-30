@@ -42,7 +42,19 @@ def get_latest_transactions(list_: list[dict, ...]) -> list[dict, ...]:
     return latest_transactions[:5]
 
 
+def get_date_from_string(list_: list[dict, ...]) -> list[str, ...]:
+    """
+    Функция принимает список словарей и возвращает список из дат выполненных операций
+    :param list_: список словарей
+    :return: список строк
+    """
+    date = [data["date"][:10].replace("-", ".") for data in list_]
+    revers_data = [".".join(data.split(".")[::-1]) for data in date]
+    return revers_data
+
+
 list_banking_transactions = get_json_file()
 list_completed_operations = get_list_completed_operations(list_banking_transactions)
 last_five_operations = get_latest_transactions(list_completed_operations)
-print(last_five_operations)
+date_from_string = get_date_from_string(last_five_operations)
+print(date_from_string)
