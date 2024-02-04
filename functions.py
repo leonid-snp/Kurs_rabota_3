@@ -17,18 +17,8 @@ def get_list_completed_operations(list_: list[dict, ...]) -> list[dict, ...]:
     :param list_: список словарей
     :return: список словарей
     """
-    try:
-        completed_operations = []
-        for state in list_:
-            if state["state"] == "EXECUTED":
-                completed_operations.append(state)
-        return completed_operations
-
-    except KeyError:
-        pass
-
-    finally:
-        return completed_operations
+    completed_operations = [operation for operation in list_ if operation.get("state") == "EXECUTED"]
+    return completed_operations
 
 
 def get_latest_transactions(list_: list[dict, ...]) -> list[dict, ...]:
@@ -95,4 +85,4 @@ last_five_operations = get_latest_transactions(list_completed_operations)
 date_from_string = get_date_from_string(last_five_operations)
 print(date_from_string)
 card_number = get_card_number(last_five_operations)
-# print(card_number)
+print(card_number)
