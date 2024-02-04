@@ -42,15 +42,22 @@ def get_latest_transactions(list_: list[dict, ...]) -> list[dict, ...]:
     return latest_transactions[:5]
 
 
-def get_date_from_string(list_: list[dict, ...]) -> list[str, ...]:
+def get_date_from_string(list_: list[dict, ...]) -> tuple[str, ...]:
     """
-    Функция принимает список словарей и возвращает список из дат выполненных операций
+    Функция принимает список словарей и возвращает кортеж из дат и типов операций
     :param list_: список словарей
-    :return: список строк
+    :return: кортеж строк
     """
     date = [data["date"][:10].replace("-", ".") for data in list_]
+    list_operations = [description["description"] for description in list_]
     revers_data = [".".join(data.split(".")[::-1]) for data in date]
-    return revers_data
+    type_transaction = (f"{revers_data[0] + " " + list_operations[0]} ",
+                        f"{revers_data[1] + " " + list_operations[1]} ",
+                        f"{revers_data[2] + " " + list_operations[2]} ",
+                        f"{revers_data[3] + " " + list_operations[3]} ",
+                        f"{revers_data[4] + " " + list_operations[4]}")
+
+    return type_transaction
 
 
 def get_card_number(list_: list[dict, ...]) -> tuple[str, ...]:
@@ -88,4 +95,4 @@ last_five_operations = get_latest_transactions(list_completed_operations)
 date_from_string = get_date_from_string(last_five_operations)
 print(date_from_string)
 card_number = get_card_number(last_five_operations)
-print(card_number)
+# print(card_number)
