@@ -53,8 +53,39 @@ def get_date_from_string(list_: list[dict, ...]) -> list[str, ...]:
     return revers_data
 
 
+def get_card_number(list_: list[dict, ...]) -> tuple[str, ...]:
+    """
+    Функция принимает список словарей и возвращает зашифрованное значение по ключу "from"
+    :param list_: список словарей
+    :return: кортеж строк
+    """
+    list_cards = [card.get("from") for card in list_]
+    list_number = [number.split()[-1] for number in list_cards if number is not None]
+    cards_number = [number[:6] + "*" * 6 + number[-4:] for number in list_number if len(number) < 20]
+    hidden_numbers = ("".join([f"{cards_number[0][:4]} {cards_number[0][4:8]} {cards_number[0][8:12]} {cards_number[0][12:16]},"
+                      f"{cards_number[1][:4]} {cards_number[1][4:8]} {cards_number[1][8:12]} {cards_number[1][12:16]}"])
+                      .split(","))
+    hidden_numbers.append("**" + list_number[2][len(list_number[2]) - 4:])
+
+    empty_list = []
+    for card in list_cards:
+        if card is not None:
+            for el in card:
+                if el.isalpha():
+                    empty_list.append(el)
+
+    card_names = f"{"".join(empty_list)[:11]} {"".join(empty_list)[11:18]} {"".join(empty_list)[18:]}".split()
+    hidden_information = (f"{card_names[0][:4]} {card_names[0][4:11]} {hidden_numbers[0]} ",
+                          f"{card_names[1]} {hidden_numbers[1]} ",
+                          f"{card_names[2]} {hidden_numbers[2]}")
+
+    return hidden_information
+
+
 list_banking_transactions = get_json_file()
 list_completed_operations = get_list_completed_operations(list_banking_transactions)
 last_five_operations = get_latest_transactions(list_completed_operations)
 date_from_string = get_date_from_string(last_five_operations)
 print(date_from_string)
+card_number = get_card_number(last_five_operations)
+print(card_number)
