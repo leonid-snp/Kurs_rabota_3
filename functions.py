@@ -41,10 +41,10 @@ def get_date_from_string(list_: list[dict, ...]) -> tuple[str, ...]:
     date = [data["date"][:10].replace("-", ".") for data in list_]
     list_operations = [description["description"] for description in list_]
     revers_data = [".".join(data.split(".")[::-1]) for data in date]
-    type_transaction = (f"{revers_data[0] + " " + list_operations[0]} ",
-                        f"{revers_data[1] + " " + list_operations[1]} ",
-                        f"{revers_data[2] + " " + list_operations[2]} ",
-                        f"{revers_data[3] + " " + list_operations[3]} ",
+    type_transaction = (f"{revers_data[0] + " " + list_operations[0]}",
+                        f"{revers_data[1] + " " + list_operations[1]}",
+                        f"{revers_data[2] + " " + list_operations[2]}",
+                        f"{revers_data[3] + " " + list_operations[3]}",
                         f"{revers_data[4] + " " + list_operations[4]}")
 
     return type_transaction
@@ -72,11 +72,23 @@ def get_card_number(list_: list[dict, ...]) -> tuple[str, ...]:
                     empty_list.append(el)
 
     card_names = f"{"".join(empty_list)[:11]} {"".join(empty_list)[11:18]} {"".join(empty_list)[18:]}".split()
-    hidden_information = (f"{card_names[0][:4]} {card_names[0][4:11]} {hidden_numbers[0]} ",
-                          f"{card_names[1]} {hidden_numbers[1]} ",
+    hidden_information = (f"{card_names[0][:4]} {card_names[0][4:11]} {hidden_numbers[0]}",
+                          f"{card_names[1]} {hidden_numbers[1]}",
                           f"{card_names[2]} {hidden_numbers[2]}")
 
     return hidden_information
+
+
+def get_account_number(list_: list[dict, ...]) -> list[str, ...]:
+    """
+    Функция получает список из 5 последних операций и выводит замаскированный счет куда были отправлены деньги
+    :param list_: список словарей
+    :return: список строк
+    """
+    account = [to.get("to").split()[0] + " " for to in list_]
+    hidden_account = [account[0] + "**" + to.get("to").split()[-1][len(to.get("to").split()[-1]) - 4:] for to in list_]
+
+    return hidden_account
 
 
 list_banking_transactions = get_json_file()
@@ -86,3 +98,5 @@ date_from_string = get_date_from_string(last_five_operations)
 print(date_from_string)
 card_number = get_card_number(last_five_operations)
 print(card_number)
+account_number = get_account_number(last_five_operations)
+print(account_number)
