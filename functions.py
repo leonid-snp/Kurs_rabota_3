@@ -91,6 +91,17 @@ def get_account_number(list_: list[dict, ...]) -> list[str, ...]:
     return hidden_account
 
 
+def get_amount_transactions(list_: list[dict, ...]) -> list[str, ...]:
+    """
+    Функция получает список из 5 последних операций и возвращает список из сумм и валюты
+    выполненных операций
+    :param list_: список словарей
+    :return: список строк
+    """
+    summ = [summ.get("operationAmount")["amount"] + " " + summ.get("operationAmount")["currency"]["name"] for summ in list_]
+    return summ
+
+
 list_banking_transactions = get_json_file()
 list_completed_operations = get_list_completed_operations(list_banking_transactions)
 last_five_operations = get_latest_transactions(list_completed_operations)
@@ -100,3 +111,5 @@ card_number = get_card_number(last_five_operations)
 print(card_number)
 account_number = get_account_number(last_five_operations)
 print(account_number)
+amount_transactions = get_amount_transactions(last_five_operations)
+print(amount_transactions)
