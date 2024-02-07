@@ -3,7 +3,7 @@ from functions.functions import get_json_file, get_list_completed_operations, ge
 
 
 def main():
-    list_banking_transactions = get_json_file()
+    list_banking_transactions = get_json_file("../files/operations.json")
     list_completed_operations = get_list_completed_operations(list_banking_transactions)
     last_five_operations = get_latest_transactions(list_completed_operations)
     date_from_string = get_date_from_string(last_five_operations)
