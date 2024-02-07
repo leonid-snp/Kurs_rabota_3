@@ -6,7 +6,7 @@ def get_json_file() -> list[dict, ...]:
     Функция считывает файл Json
     :return: Список словарей
     """
-    with open("operations.json") as file:
+    with open("../files/operations.json") as file:
         file = json.load(file)
         return file
 
@@ -72,9 +72,11 @@ def get_card_number(list_: list[dict, ...]) -> tuple[str, ...]:
                     empty_list.append(el)
 
     card_names = f"{"".join(empty_list)[:11]} {"".join(empty_list)[11:18]} {"".join(empty_list)[18:]}".split()
-    hidden_information = (f"{card_names[0][:4]} {card_names[0][4:11]} {hidden_numbers[0]}",
+    hidden_information = (f"{None}",
+                          f"{card_names[0][:4]} {card_names[0][4:11]} {hidden_numbers[0]}",
                           f"{card_names[1]} {hidden_numbers[1]}",
-                          f"{card_names[2]} {hidden_numbers[2]}")
+                          f"{card_names[2]} {hidden_numbers[2]}",
+                          f"{None}")
 
     return hidden_information
 
@@ -100,16 +102,3 @@ def get_amount_transactions(list_: list[dict, ...]) -> list[str, ...]:
     """
     summ = [summ.get("operationAmount")["amount"] + " " + summ.get("operationAmount")["currency"]["name"] for summ in list_]
     return summ
-
-
-list_banking_transactions = get_json_file()
-list_completed_operations = get_list_completed_operations(list_banking_transactions)
-last_five_operations = get_latest_transactions(list_completed_operations)
-date_from_string = get_date_from_string(last_five_operations)
-print(date_from_string)
-card_number = get_card_number(last_five_operations)
-print(card_number)
-account_number = get_account_number(last_five_operations)
-print(account_number)
-amount_transactions = get_amount_transactions(last_five_operations)
-print(amount_transactions)
