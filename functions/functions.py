@@ -1,12 +1,12 @@
 import json
 
 
-def get_json_file(name_file) -> list[dict, ...]:
+def get_json_file() -> list[dict, ...]:
     """
     Функция считывает файл Json
     :return: Список словарей
     """
-    with open(name_file) as file:
+    with open("../files/operations.json") as file:
         file = json.load(file)
         return file
 
