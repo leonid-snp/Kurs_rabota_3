@@ -6,7 +6,7 @@ def get_json_file() -> list[dict, ...]:
     Функция считывает файл Json
     :return: Список словарей
     """
-    with open("C:/Users/User/PycharmProjects/Kurs_rabota_3/files/operations.json") as file:
+    with open("../files/operations.json") as file:
         file = json.load(file)
         return file
 

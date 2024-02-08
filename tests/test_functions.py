@@ -1,5 +1,4 @@
-from functions.functions import get_json_file, get_list_completed_operations, get_latest_transactions, \
-    get_date_from_string, get_card_number, get_account_number, get_amount_transactions
+from functions.functions import *
 
 
 def test_get_json_file():
